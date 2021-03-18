@@ -21,19 +21,11 @@ int main(int argc,char *argv[])
 	 }
 	
 	
-//	 while(1)
-	 {
-		while( fscanf(fp, "%s",array) != EOF ){
-		puts(array);	
-    	memset(array,0,20);
-    	}
-	/*  ch=fgetc(fs);
-	  if (feof(fs)) break;
-	  printf("\n%c",ch);
-	*/  
-	 }
 	
-	 fclose(fp);
-	 
+	while( fscanf(fp, "%s",array) != EOF ){
+	      puts(array);	
+    	     memset(array,0,20);
+    	}
+	fclose(fp);
 	 return 0;
 }
