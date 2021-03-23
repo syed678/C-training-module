@@ -1,48 +1,39 @@
 /*
 Perform the following operations on integer array of 10 elements.
-É‹ Accept the values from user.
-É‹ Sort an array in ascending order.
-É‹ Sort an array in descending order.
-É‹ Display sum of all odd values stored in an array.
-É‹ Display number of even values stored in an array.
-É‹ Set bits of odd position elements and clear bits of even position elements
+ Accept the values from user.
+ Sort an array in ascending order.
+ Sort an array in descending order.
+ Display sum of all odd values stored in an array.
+ Display number of even values stored in an array.
+ Set bits of odd position elements and clear bits of even position elements
 */
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
+#include"Fun.c"   //containing int float input function
+
 #define SIZE 10
 
+void SortArrayInAscendingOrder(void);
+void SortArrayInDescendingOrder(void);
+void  PrintArray(void);
+void DispSumOfOddVal(void);
+void DispSomeOfEvenVal(void);
+void SetBitOfOddPos(void);	
+void SetOddClrEvenbit(void);
+
 static int array[SIZE];
-
-static void SortArrayInAscendingOrder(void);
-static void SortArrayInDescendingOrder(void);
-static void  PrintArray(void);
-static void DispSumOfOddVal(void);
-static void DispSomeOfEvenVal(void);
-static void SetBitOfOddPos(void);	
-static void SetOddClrEvenbit(void);
-
-
 main()
 {
 	char   temp = 0;
 	char Arrint[2];
-	char arrint[10]={0};
 	int choice = 0;
 	printf("enter 10 int\n");
-	
-	for(temp=0 ; temp<SIZE ; temp++){
-		Label1:
-				printf("\nEnter number : "); 
-			    scanf("%s",arrint);
-				if(  CheckarrtoInt( arrint )){
-					array[temp] = atoi( arrint );
-				}
-				else{
-					puts("enter valid no");
-					memset(arrint,0,10);
-					goto Label1;
-				}
-				//scanf("%d",&array[temp]);
+	int wrongChoice = 0;
+	for( temp = 0 ; temp<SIZE ; temp++){
+				printf("\nEnter max 10 digit number : "); 
+					array[temp] = EnterInt();
+		
 	}
 	PrintArray();
 	
@@ -51,85 +42,58 @@ main()
 		printf("enter your choice\n");
 		printf("\n1 : Sort an array in ascending order\n2 : Sort an array in descending order  ");
 		printf("\n3 : Display sum of all odd values stored in an array\n4 : Display number of even values stored in an array");
-		printf("\n5 . Set bits of odd position elements clear bits of even position elements\n");
-		printf("\n10 to exit\n");
-LABEL :	printf("enter your choice :  ");
-		scanf("%s",Arrint);
-		if( checkInt(Arrint) ){
-	    choice =   Arrint[0] -48  ;
-		}
-		else{
-			puts("Invalid Entery");
-			goto LABEL;
-			
-		}
-	//	scanf("%d",&choice);
+		printf("\n5 : Set bits of odd position elements clear bits of even position elements");
+		printf("\n6 : to EXIT\n");
+		printf("enter your choice :  ");
+		choice = Enterdigit();
+	
 		switch (choice){
 		case 1 : 
 			SortArrayInAscendingOrder();
-			PrintArray();
+			wrongChoice = 0;
 		break;
 		case 2 : 
 			SortArrayInDescendingOrder();
+			wrongChoice = 0;
 		break;
 		case 3 : 
 			DispSumOfOddVal();
+			wrongChoice = 0;
 		break;
 		case 4 : 
 			DispSomeOfEvenVal();
+			wrongChoice = 0;
 		break;	
 		case 5 : 
 			SetOddClrEvenbit();
+			wrongChoice = 0;
 		break;
 	
-		case 10 : 
+		case 6 : wrongChoice = 0;
 			return;
 		break;
-		default : printf("wrong choice enterd\n");
+		default : wrongChoice++;
+				 printf("wrong choice enterd\n");
 		}
-	
+	if( wrongChoice >= 3 ){
+				puts("Multiple time wrong entries ....");	
+				wrongChoice = 0;
+				return ;
+			}
 	}			
-
 }
 
 
-int checkInt(char*p)
-{	//here checking char for 0to 10 or not
-	if(  ( p[0] >= '0' && p[0] <= 10) || p[1] == 0 )
-			return 1;
-			else
-			 return 0;
-			
-}
-
-
-int CheckarrtoInt(char*p)
-{
-	//checking int or other data?
-	//if int return 1
-	int i;
-	for(i=0;i<10;i++){
-		if(  ( isdigit(p[i]) || p[i] == 0) )
-			continue;
-			else
-			 return 0;
-			
-	}	
-	return 1;
-}
-
-
-static void  PrintArray(void)
+ void  PrintArray(void)
 {
 	char temp;
 	printf("now array : ");
 	for (temp =0 ;temp<SIZE ;temp++){
 		printf("%d\t",array[temp]);
 	}
-	
 }
 
-void static SortArrayInAscendingOrder(void)
+void  SortArrayInAscendingOrder(void)
 {
 	char temp1,temp2;
 	int var;
@@ -141,67 +105,93 @@ void static SortArrayInAscendingOrder(void)
 				array[temp2]	= var;	
 			}
 		}	
-		
 	}
-
-
+	PrintArray();
 }
 
 
-static void SortArrayInDescendingOrder(void)
+ void SortArrayInDescendingOrder(void)
 {
 	char temp1,temp2;
 	int var;
 	for (temp1 = SIZE-1 ; temp1>=0 ; temp1--){
 		for (temp2 =0 ;temp2<temp1 ;temp2++){
+			
 			if (array[temp1] > array[temp2]){
-				var = array[temp1];
-				array[temp1]	=  array[temp2];
-				array[temp2]	= var;	
+					var = array[temp1];
+					array[temp1]	=  array[temp2];
+					array[temp2]	= var;	
 			}
 		}	
-		
 	}
 	PrintArray();
 }
 
-static void DispSumOfOddVal(void)
+ void DispSumOfOddVal(void)
 {
 	char index;
 	int sum = 0 ;
-	for (index =0 ;index<SIZE ;index++){
-		if (( array[index]%2 )  != 0){
+	for (index = 1 ;index<SIZE ;index += 2  ){
 				sum += array[index];
-	   }
 	}
 	printf("sum of odd values of Array is : %d\n",sum);	
 }
 
 
-static void DispSomeOfEvenVal(void)
+void DispSomeOfEvenVal(void)
 {
 	int sum = 0 ;
 	char index;
-	for (index =0 ;index<SIZE ;index++){
-		if (( array[index]%2 )  == 0){
-				sum += array[index];
-	   }
+	for (index = 0 ;index<SIZE ;index += 2 ){
+					sum += array[index];
+	   
 	}
 	printf("sum of Even values of Array is : %d\n",sum);	
 }
 
-static void SetOddClrEvenbit(void)
+
+void print_binnary (int k)
+{
+	int c;
+  for (c = 31; c >= 0; c--)
+  {
+    printf("%d",( k>>c ) & 1);
+	if( c%8 == 0 ) printf("    ");
+  }
+
+  printf("\n");
+	
+}
+
+
+ void SetOddClrEvenbit(void)
 {
 	char index;
 	int sum = 0 ;
+	int BitNo = 0;
+	puts("Enter Bit no u want to set in Odd & Clear in Even : ");
+	BitNo = EnterInt();
+	for (index =0 ;index<SIZE ;index++){
+		printf("\n%d\t",array[index]);	
+		print_binnary( array[index] );
+		
+	}
+	
 	for (index =0 ;index<SIZE ;index++){
 		if (( index%2 )  != 0){
-			array[index] |= 0xFF;	//if index odd set all bits
-	   }else if( (index%2) == 0 )
-			array[index] &= 0x00;   //if index even clear all bits
-
+		
+			array[index] |= ( 1 << BitNo );	//if index odd set all bits
+	   }else {
+	   		array[index] &= ~(1 << BitNo);  //if index even clear all bits
+	   }
 	}
-	PrintArray();
+
+	for (index =0 ;index<SIZE ;index++){
+		printf("\n%d\t",array[index]);	
+		print_binnary( array[index] );
+		
+	}
+//	PrintArray();
 }
 
 
