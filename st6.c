@@ -2,51 +2,42 @@
 
 #include <stdio.h>
 #include<string.h>
+#include"E:\Local\Desktop\update\array\Fun.c"
+
+#define  SIZE 3
+
 int i;
 struct student {
 	
-char name[30];
-int rollno;
+	char name[30];
+	int rollno;
 
 } stud[3];
 
 main()
 {
 	 char arrint[10]={0};
+	 int errorcnt = 0;
 	puts("enter 3 students details :......\n");
-	for(i=0; i<3; i++){
+	for(i=0; i<SIZE; i++){
+		puts("Roll number");
+		stud[i].rollno = EnterInt();
+		printf("Enter name: ");
 	
+		do{	
+			if( errorcnt > 2 ){
+				puts("Multiple time wrong entries......");	
+				return ;
+			}	
+			if(	errorcnt  )	puts("enter Propper name");
+			gets( stud[i].name);
+			errorcnt++;
+		}while(  ! CheckName(  stud[i].name ) );
 	
-		//scanf ("%d",&stud[i].rollno);
-		
-		LAB: 
-			printf ("\nEnter your RollNo : ");
-			gets(arrint);
-			if(  CheckarrtoInt( arrint )){
-				stud[i].rollno = atoi( arrint );
-			}
-			else{
-				puts("enter valid no");
-				memset(arrint,0,10);
-				goto LAB;
-			}
-	
-	
-	
-			LABEL:
-				
-			   	printf("Enter name: ");
-			   gets( stud[i].name);
-			
-				if ( ! CheckName(  stud[i].name ) ) {
-						puts("enter Propper name");
-					goto LABEL;
-				}
-			
-	
+		errorcnt =0;
 	}
 	printf ("\nList of all records");
-	for (i=0; i<3; i++)
+	for (i=0; i<SIZE; i++)
 	{
 	printf ("\nRollNo : %d\t Name : %s", stud[i].rollno, stud[i].name);
 	}
@@ -54,18 +45,6 @@ main()
 }
 
 
-int CheckarrtoInt(char*p)
-{	//check int value valid or not
-	int i;
-	for(i=0;i<10;i++){
-		if(  ( isdigit(p[i]) || p[i] == 0) )
-			continue;
-			else
-			 return 0;
-			
-	}	
-	return 1;
-}
 
 int CheckName (char *p)
 {
@@ -73,8 +52,7 @@ int CheckName (char *p)
 	int i;
 	for(i= 0 ; p[i]; i++ ){
 	
-	//	if( !  () ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0)
-		if( !  ( ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0) ) 
+	if( !  ( ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0 )  ||  ( p[i] == ' ' && p[i+1] == ' ')) 
 			return 0;
 		}
 		return 1;

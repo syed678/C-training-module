@@ -5,13 +5,12 @@ function, perform the operation on it (structure member) and print values in the
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include"E:\Local\Desktop\update\array\Fun.c"
 struct node {
 
    	char *name;
     int data;          // Data 
 };
-
-
 
 static struct node * insertData (struct node *head);
 static void DisplayList( struct node *head);
@@ -21,30 +20,37 @@ int main()
 {
     int choice, data;
 	struct node *head = NULL;
-    	
+    	int errorcnt = 0;	
 	while(1)
-	{
+	{	puts("\n\t........MENU........");
+		printf(" 1: Add data\t 2 : Display data  ");
+		printf("\n\t3 : to exit\n");
 		printf("\nenter your choicefor Student details");
-		printf("\n1 : Add Roll no\n2 : Display data  ");
-		printf("\n10 : to exit\n");
 		printf("\nenter your choice :  ");
-		scanf("%d",&choice);
+		choice = Enterdigit();
 		switch (choice){
 		case 1 : 
-			printf("\nEnter data to insert in list: ");
+			errorcnt=0;
 		    head = insertData(head);
 		break;
 		case 2 : 
-			printf("\nData in the list.... \n");
+			errorcnt=0;
   		    DisplayList( head );
 		break;
-		case 10 : 
+		case 3 : 
 			return;
 		break;
 		default : printf("wrong choice enterd\n");
+				  errorcnt++;
 		}
+		if(errorcnt > 2)
+			 {
+				printf("Multiple time wrong choice enterd\n");
+				return 0;
+		}
+	
 	}		
-    return 0;
+    
 }
 
 static char* getstring(void)
@@ -65,43 +71,33 @@ static char* getstring(void)
 
 static struct node * insertData (struct node *head)
 {
-	char arrint[10]={0};
+	
 	head = realloc(head ,(sizeof(struct node)) * ( NoOfNodes + 1 ) );
 	if( NULL == head ){
 		printf("memory allocation failed \n");
 		return;
 	}
+	printf("\nEnter Roll number \n");
+	head[NoOfNodes].data = EnterInt();
 	
-	
-//	printf("enter roll no   :  ");
-//	scanf("%d",&head[NoOfNodes].data);
-	
-	LAB1 :	
-		printf("enter roll no   :  ");
-			getchar();
-		gets(arrint);
-		if(  CheckarrtoInt( arrint )){
-			head[NoOfNodes].data = atoi( arrint );
-		}
-		else{
-			puts("enter valid no");
-			memset(arrint,0,10);
-			goto LAB1;
-		}
-	
-//
+	printf("enter Name  :\t");
+	head[NoOfNodes].name = getstring();
+	while(  ! CheckName( head[NoOfNodes].name )  )
+	{
+		puts("enter Propper name");
+		free(head[NoOfNodes].name);  head[NoOfNodes].name=NULL;
+		head[NoOfNodes].name = getstring();
+	}
+
+/*	
 LAB2:
 	printf("enter Name  :\t");
 	head[NoOfNodes].name = getstring();
-	
 	if ( ! CheckName( head[NoOfNodes].name ) ) {
 				puts("enter valid name");
 				goto LAB2;
 			}
-	
-	
-	printf("\nName : %s\t data : %d data Add in list",head[NoOfNodes].name,head[NoOfNodes].data);
-		
+*/	printf("\nName : %s\t data : %d data Add in list",head[NoOfNodes].name,head[NoOfNodes].data);
 	NoOfNodes +=1;
 	return head;
 }
@@ -120,28 +116,13 @@ static void DisplayList( struct node *head )
 }
 
 
-
-int CheckarrtoInt(char*p)
-{	//check int value valid or not
-	int i;
-	for(i=0;i<10;i++){
-		if(  ( isdigit(p[i]) || p[i] == 0) )
-			continue;
-			else
-			 return 0;
-			
-	}	
-	return 1;
-}
-
 int CheckName (char *p)
 {
 	//check name valid or not
 	int i;
 	for(i= 0 ; p[i]; i++ ){
 	
-	//	if( !  () ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0)
-		if( !  ( ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0) ) 
+			if( ! ( ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0 )  ||  ( p[i] == ' ' && p[i+1] == ' '))
 			return 0;
 		}
 		return 1;

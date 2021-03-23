@@ -1,10 +1,12 @@
 /* Demonstrating the concept of call by value and call by reference (pass a structure to the
-function, perform the operation on it (structure member) and print values in the main function). */
+function*/
 /* this is call by value */
 
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include"E:\Local\Desktop\update\array\Fun.c"
+
 struct node {
 
    	char *name;
@@ -16,21 +18,28 @@ struct node {
 static struct node *  insertData (struct node *var);
 static char* getstring(void);
 static int NoOfNodes = 0;
+void print(struct node variable );
+
 int main()
 {
     int choice, data;
 	struct node variable ;
-    	
-
-	printf("\nenter Student details");
-	printf("\n Add Data no ");
-	printf("\nEnter data to insert in list: ");
+ 	printf("\t..... Student details.......\n");
 	memcpy(&variable, insertData( &variable ), sizeof (variable) );
-	printf("\nData is.... \n");
-	printf("\nName : %s\t Roll no : %d",variable.name,variable.data);	
+	print(variable); // using call by value
+		
 	
     return 0;
 }
+
+
+void print(struct node variable )
+{
+	printf("\nData is.... \n");
+	printf("\nName : %s\t Roll no : %d",variable.name,variable.data);
+}
+
+
 
 static char* getstring(void)
 {
@@ -52,43 +61,32 @@ static struct node * insertData (struct node *var)
 {
 	
 	char arrint[10]={0};
-	var = calloc(1 , 8 /*sizeof (struct node */);
-	
+	var = calloc(1 , sizeof (*var) );
+	int erroecnt = 1;
 	if( NULL == var ){
 		printf("memory allocation failed \n");
 		return;
 	}
-	
-	
-//	printf("enter roll no   :  ");
-//	scanf("%d",&var->data);
-	
-	LAB1 :	
-		printf("enter roll no   :  ");
-		gets(arrint);
-		if(  CheckarrtoInt( arrint )){
-			var->data = atoi( arrint );
-		}
-		else{
-			puts("enter valid no");
-			memset(arrint,0,10);
-			goto LAB1;
-		}
-	
-	
-	
-	
-//	getchar();
-	LAB2:
+	puts("enter Roll no");
+	var->data = EnterInt();
+
+	printf("enter Name  :\t");
+	var->name = getstring();
+	while(  ! CheckName( var->name )  )
+	{
+		puts("enter Propper name");
+		free(var->name);  var->name=NULL;
+		var->name = getstring();
+	}
+
+/*	LAB2:
 		printf("enter Name  :\t");
 		var->name = getstring();
-	
 		if ( ! CheckName( var->name ) ) {
 				puts("enter valid name");
 				goto LAB2;
 			}
-	
-	printf("\nName : %s\t data : %d data saved",var->name,var->data);
+*/	printf("\nName : %s\t data : %d data saved",var->name,var->data);
 		
 	
 	return var;
@@ -97,27 +95,13 @@ static struct node * insertData (struct node *var)
 
 
 
-int CheckarrtoInt(char*p)
-{	//check int value valid or not
-	int i;
-	for(i=0;i<10;i++){
-		if(  ( isdigit(p[i]) || p[i] == 0) )
-			continue;
-			else
-			 return 0;
-			
-	}	
-	return 1;
-}
-
 int CheckName (char *p)
 {
 	//check name valid or not
 	int i;
 	for(i= 0 ; p[i]; i++ ){
 	
-	//	if( !  () ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0)
-		if( !  ( ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0) ) 
+		if( !  ( ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0 )  ||  ( p[i] == ' ' && p[i+1] == ' ')) 
 			return 0;
 		}
 		return 1;
