@@ -152,7 +152,7 @@ void DispSomeOfEvenVal(void)
 
 void print_binnary (int k)
 {
-	int c;
+  char c;
   for (c = 31; c >= 0; c--)
   {
     printf("%d",( k>>c ) & 1);
@@ -167,10 +167,28 @@ void print_binnary (int k)
  void SetOddClrEvenbit(void)
 {
 	char index;
-	int sum = 0 ;
-	int BitNo = 0;
-	puts("Enter Bit no u want to set in Odd & Clear in Even : ");
-	BitNo = EnterInt();
+	char BitNo = 0;
+	char errorCnt =1;
+	do{
+		puts("Enter Bit no u want to set in Odd & Clear in Even : ");
+		BitNo = EnterInt();
+		if(BitNo >= 0 && BitNo <32)
+		{
+			errorCnt = 0;
+		}
+		else{
+			puts("invalid Bit number entered");
+			errorCnt++;	
+		}	
+	}while(errorCnt >0 && errorCnt < 4) ;
+	if( errorCnt ){
+			//if errorCnt not zero 
+			puts("Multiple time wrong entries ....");	
+			errorCnt = 0;
+			return ;
+		
+	}
+	
 	for (index =0 ;index<SIZE ;index++){
 		printf("\n%d\t",array[index]);	
 		print_binnary( array[index] );
@@ -180,18 +198,17 @@ void print_binnary (int k)
 	for (index =0 ;index<SIZE ;index++){
 		if (( index%2 )  != 0){
 		
-			array[index] |= ( 1 << BitNo );	//if index odd set all bits
+			array[index] |= ( 1 << BitNo );	//set bit
 	   }else {
-	   		array[index] &= ~(1 << BitNo);  //if index even clear all bits
+	   		array[index] &= ~(1 << BitNo);  //Clear bit
 	   }
 	}
-
+	puts("Value After update :");
 	for (index =0 ;index<SIZE ;index++){
 		printf("\n%d\t",array[index]);	
 		print_binnary( array[index] );
 		
 	}
-//	PrintArray();
 }
 
 

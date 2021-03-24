@@ -1,5 +1,6 @@
 //  E:\Local\Desktop\update\array\Fun.c
 #include<stdlib.h> // because using exit  function
+#include<string.h>
 
 char CheckarrtoInt(char*p)
 {	//check int value valid or not
@@ -117,6 +118,18 @@ int Enterdigit(void)
 	}while(errorCnt != 0);
 	
 }
+
+char CheckName (char *p)
+{
+	int i;
+	for(i= 0 ; p[i]; i++ ){
+	
+		if( !  ( ( isalpha(p[i]) ) || p[i] == ' ' || p[i] == 0) ||  ( p[i] == ' ' && p[i+1] == ' ') ) 
+			return 0;
+		}
+	return 1;
+}
+
 /*
 int Checkarrtodigit(char*p)
 {	//check int value valid or not
