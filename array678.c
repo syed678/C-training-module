@@ -8,8 +8,6 @@ Perform the following operations on integer array of 10 elements.
  Set bits of odd position elements and clear bits of even position elements
 */
 #include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
 #include"Fun.c"   //containing int float input function
 
 #define SIZE 10
@@ -18,15 +16,14 @@ void SortArrayInAscendingOrder(void);
 void SortArrayInDescendingOrder(void);
 void  PrintArray(void);
 void DispSumOfOddVal(void);
-void DispSomeOfEvenVal(void);
+void DispEvenVal(void);
 void SetBitOfOddPos(void);	
 void SetOddClrEvenbit(void);
 
-static int array[SIZE];
+static unsigned int array[SIZE];
 main()
 {
 	char   temp = 0;
-	char Arrint[2];
 	int choice = 0;
 	printf("enter 10 int\n");
 	int wrongChoice = 0;
@@ -36,14 +33,14 @@ main()
 		
 	}
 	PrintArray();
-	
 	while(1)
 	{
-		printf("enter your choice\n");
+		printf("\n\t............MENU............");
 		printf("\n1 : Sort an array in ascending order\n2 : Sort an array in descending order  ");
 		printf("\n3 : Display sum of all odd values stored in an array\n4 : Display number of even values stored in an array");
-		printf("\n5 : Set bits of odd position elements clear bits of even position elements");
+		printf("\n5 : Set bits of odd position elements clear bits of even position elements for perticular bit no");
 		printf("\n6 : to EXIT\n");
+		printf("\t==============================\n");
 		printf("enter your choice :  ");
 		choice = Enterdigit();
 	
@@ -61,7 +58,7 @@ main()
 			wrongChoice = 0;
 		break;
 		case 4 : 
-			DispSomeOfEvenVal();
+			DispEvenVal();
 			wrongChoice = 0;
 		break;	
 		case 5 : 
@@ -89,7 +86,7 @@ main()
 	char temp;
 	printf("now array : ");
 	for (temp =0 ;temp<SIZE ;temp++){
-		printf("%d\t",array[temp]);
+		printf("%lu\t",array[temp]);
 	}
 }
 
@@ -131,22 +128,25 @@ void  SortArrayInAscendingOrder(void)
 {
 	char index;
 	int sum = 0 ;
-	for (index = 1 ;index<SIZE ;index += 2  ){
+	for (index = 0 ;index<SIZE ; index++  ){
+			if (( array[index]%2 )  != 0){
 				sum += array[index];
+			}
 	}
 	printf("sum of odd values of Array is : %d\n",sum);	
 }
 
 
-void DispSomeOfEvenVal(void)
+void DispEvenVal(void)
 {
 	int sum = 0 ;
 	char index;
-	for (index = 0 ;index<SIZE ;index += 2 ){
-					sum += array[index];
-	   
+	printf( "Even values in Array : \n" ) ;
+	for (index =0 ; index<SIZE ;index++){
+		if (( array[index]%2 )  == 0){
+				printf(" %lu\n",array[index]);
+	   }
 	}
-	printf("sum of Even values of Array is : %d\n",sum);	
 }
 
 
@@ -156,11 +156,12 @@ void print_binnary (int k)
   for (c = 31; c >= 0; c--)
   {
     printf("%d",( k>>c ) & 1);
-	if( c%8 == 0 ) printf("    ");
+	if( c%8 == 0 ) {
+		printf("    ");	
+	}
   }
 
-  printf("\n");
-	
+  printf("\n");	
 }
 
 
@@ -182,7 +183,7 @@ void print_binnary (int k)
 		}	
 	}while(errorCnt >0 && errorCnt < 4) ;
 	if( errorCnt ){
-			//if errorCnt not zero 
+			//if errorCnt not zero it will be more than 3
 			puts("Multiple time wrong entries ....");	
 			errorCnt = 0;
 			return ;
@@ -190,14 +191,13 @@ void print_binnary (int k)
 	}
 	
 	for (index =0 ;index<SIZE ;index++){
-		printf("\n%d\t",array[index]);	
+		printf("\n%lu\t",array[index]);	
 		print_binnary( array[index] );
 		
 	}
 	
 	for (index =0 ;index<SIZE ;index++){
-		if (( index%2 )  != 0){
-		
+		if ( index%2   != 0){
 			array[index] |= ( 1 << BitNo );	//set bit
 	   }else {
 	   		array[index] &= ~(1 << BitNo);  //Clear bit
@@ -205,7 +205,7 @@ void print_binnary (int k)
 	}
 	puts("Value After update :");
 	for (index =0 ;index<SIZE ;index++){
-		printf("\n%d\t",array[index]);	
+		printf("\n%lu\t",array[index]);	
 		print_binnary( array[index] );
 		
 	}
