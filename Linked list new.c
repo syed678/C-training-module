@@ -27,7 +27,7 @@ void swap(struct student *a, struct student *b);
 void Edit( void );
 void EditPyra (struct student *temp );
 void FindElement(void );
- 
+
 struct student* start = NULL; 
 
 int main() 
@@ -108,7 +108,7 @@ int main()
 	
 }
 
-int checkGrade(char *p)
+char checkGrade(char *p)
 {
 	if ( (  p[1] == 0 ) && ( p[0] == 'A' || p[0] == 'B' || p[0] == 'C' || p[0] == 'D' || p[0] == 'E' || p[0] == 'F'||
 							 p[0] == 'a' || p[0] == 'b' || p[0] == 'c' || p[0] == 'd' || p[0] == 'e' || p[0] == 'f' )  ){
@@ -128,6 +128,11 @@ void EnterInput(struct student *temp)
 
 	printf("\nEnter Roll number : "); 
 	temp->info = EnterInt();
+	while( temp->info < 1 ){
+		puts("Invalid entry.... Enter again ");
+		temp->info = EnterInt();
+		
+	}
 	
  
     printf("\nEnter Name : "); 
@@ -146,13 +151,14 @@ void EnterInput(struct student *temp)
 		puts("enter Grade between A to F");
 		gets(arrch);
 	}
-	if( arrch[0] >96 )	arrch[0] -= 32;
+	if( arrch[0] > 96 )	{
+		arrch[0] -= 32;	
+	}
 	temp->Grade = arrch[0];
 	
 	printf("\n %d\t", temp->info); 
 	printf(" %s\t", temp->Name); 
 	printf(" %c  .....data Added", temp->Grade); 
-
 	
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,13 +169,10 @@ void EnterInput(struct student *temp)
     struct student *temp , *head; 
     temp = calloc(1,sizeof(struct student)); 
   	if(NULL == temp ){
-  		puts("memory allocation failed ");
+  		puts("Memory allocation failed ");
   		return;
 	  }
  	EnterInput(temp);	
- 
- 
- 
    if ( NULL == start ) {
     	start = temp;
 		return;	
@@ -186,8 +189,7 @@ void EnterInput(struct student *temp)
  void print( void ) 
 { 
     struct student* temp; 
-  	char n = 1; //for max 256 for sr.no
-    // List is empty 
+  	char n = 1; //for max 256 for sr.no if need more make it int
     if ( NULL == start ) {
     	printf("\nList is empty.....\n"); 
 		return;	
@@ -205,9 +207,6 @@ void EnterInput(struct student *temp)
         } 
     } 
 } 
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    /* Insert nth position node in linked list if 2 enter 2nd node will be entered*/
  void insertAtPosition() 
 { 
@@ -349,9 +348,7 @@ void EditPyra (struct student *temp )
 	char arrint[10]={0};
 	char arrch[2]={0};
 	do{
-
-		puts(" 1 :  to edit All pyrameter enter ");
-		puts(" 2 : to edit individual pyrameter enter ");
+		puts(" 1 :  to edit All pyrameter enter \n 2 : to edit individual pyrameter enter  ");
 		choice = Enterdigit();
 		if( choice == 1 ){
 			EnterInput(temp);
@@ -364,21 +361,27 @@ void EditPyra (struct student *temp )
 			puts("3 : to edit grade ");
 			pyrameter = EnterInt();
 			switch( pyrameter ){
-					case 1 :printf("\nEnter Roll number : "); 
+				case 1:printf("\nEnter Roll number : "); 
 						    temp->info = EnterInt();
+						   	while( temp->info < 1 ){
+								puts("Invalid entry.... Enter again ");
+								temp->info = EnterInt();
+								
+							}
 						    invalidCnt = 0;
 						 	break;
-	    		case 2 : 
+	    		case 2: 
 							printf("\nEnter Name : "); 
 							temp->Name =  getstring();
 							while(  ! CheckName( temp->Name ) ){
 								puts("enter Propper name");
-								free(temp->Name);  temp->Name=NULL;
+								free(temp->Name); 
+							    temp->Name=NULL;
 								temp->Name = getstring();
 							}
 							invalidCnt = 0;
 							break;
-				case 3 	:
+				case 3 :
 							printf("\nEnterGrade : "); 
 						    gets(arrch);
 							while( !checkGrade(arrch) ){
@@ -391,25 +394,21 @@ void EditPyra (struct student *temp )
 						break;
 				default : puts("Invalid entry...."); 
 						invalidCnt++;
-			}
-			
+			}	
 		 } 
 		 else
 		 {
 		 	puts("invalid entery ..");
 		 	invalidCnt++;
-		 }
-		
+		 }	
 	}while(invalidCnt > 0 && invalidCnt <= 3);	
 	if(invalidCnt >=3){
 		puts(" Multiple time wrong option entered....");	
 	}
 	else{
 		puts(" Data modified....");	
-	}
-		
+	}		
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -422,7 +421,6 @@ void sort()
     /* Checking for empty list */
     if (start == NULL) 
         return; 
-  
     do{ 
         swapped = 0; 
         ptr1 = start; 
@@ -441,10 +439,11 @@ void sort()
     while (swapped); 
 } 
   
-/* function to swap data of two nodes a and b*/
+/* function to swap data of two nodes */
 void swap(struct student *a, struct student *b) 
 { 
-   char *p;
+  	//due to Link pointer swap data not direct node
+  char *p;
    char ch;
    int temp ;
    	temp = a->info; 
@@ -479,7 +478,7 @@ int choice,pyrameter=0,invalidCnt=1;
 			temp= temp->link;	
 		}	
 	}
-   	 printf("\Enter number between 1 to %d :", MaxPos+1);//bcoz starting with zero add 1 here
+   	 printf("\Enter number between 1 to %d :", MaxPos+1);//bcoz starting with zero there for + 1 here
     printf("\nEnter position to be find :"); 
     pos = EnterInt();
     temp = start;
