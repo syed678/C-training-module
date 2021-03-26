@@ -1,24 +1,16 @@
 //without pragma output will be  4 8 24 16  
 // with pragma output will be    3 7 13 13
-//#pragma pack (1)
+
 #include <stdio.h>
- 
-// Alignment requirements here
-// (typical 64 bit machine)
- 
-// char         1 byte
-// short int    2 bytes
-// int          4 bytes
-// double       8 bytes
- 
 // structure A
+#pragma pack (1)
 typedef struct structa_tag
 {
    char        c;
    short int   s;
 
 } structa_t;
- 
+ #pragma pack (0)
 // structure B
 typedef struct structb_tag
 {
@@ -26,7 +18,7 @@ typedef struct structb_tag
    char        c;
    int         i;
 } structb_t;
- 
+ #pragma pack ()
 // structure C
 typedef struct structc_tag
 {
@@ -36,6 +28,7 @@ typedef struct structc_tag
 } structc_t;
  
 // structure D
+#pragma pack (1)
 typedef struct structd_tag
 {
    double      d;
