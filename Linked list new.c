@@ -419,8 +419,11 @@ void sort()
     struct student *lptr = NULL; 
   
     /* Checking for empty list */
-    if (start == NULL) 
-        return; 
+    if (start == NULL){
+    	puts("list Empty...");
+		return; 	
+	}
+      
     do{ 
         swapped = 0; 
         ptr1 = start; 
